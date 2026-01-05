@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Thư Dưới Trời Sao</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{height:100vh;overflow:hidden;font-family:"Cormorant Garamond",serif;cursor:pointer;background:#0d1b2a;perspective:1000px;color:#fff;}
+
+/* Scene */
+.scene{position:absolute;inset:0;display:flex;justify-content:center;align-items:center;opacity:0;pointer-events:none;transition:opacity 1.5s ease;}
+.scene.active{opacity:1;pointer-events:auto;}
+
+/* TRĂNG KHUYẾT VÀNG */
+.moon{
+  position:absolute;
+  border-radius:50%;
+  width:100px;
+  height:100px;
+  background: radial-gradient(circle at 60% 50%, #ffeb7f 45%, transparent 70%);
+  box-shadow: 0 0 60px 30px rgba(255,235,127,0.5),
+              0 0 150px 70px rgba(255,235,127,0.15);
+  opacity:1;
+  transition: top 1.5s ease, transform 1.5s ease;
+  animation:moonTwinkle 6s ease-in-out infinite alternate;
+}
+.moon::after{
+  content:"";
+  position:absolute;
+  top:30px;
+  left:50%;
+  width:300px;
+  height:300px;
+  margin-left:-150px;
+  background:radial-gradient(circle, rgba(255,235,127,0.25) 0%, transparent 80%);
+  filter:blur(30px);
+  pointer-events:none;
+  z-index:0;
+  animation:moonGlow 6s ease-in-out infinite alternate;
+}
+@keyframes moonTwinkle{
+  0%,100%{transform:scale(1);}
+  50%{transform:scale(1.02);}
+}
+@keyframes moonGlow{
+  0%,100%{opacity:0.25;}
+  50%{opacity:0.35;}
+}
+
+/* STAR BACKGROUND */
+.star{position:absolute;background:#fff;border-radius:50%;opacity:0.8;box-shadow:0 0 6px #fff;animation:twinkle linear infinite;}
+@keyframes twinkle{0%,100%{opacity:0.2;}50%{opacity:1;}}
+
+/* SLIDE1: PHONG BAO */
+.envelope-wrap{position:relative;width:200px;height:140px;}
+.envelope{position:absolute;inset:0;background:linear-gradient(to bottom,#fff7eb,#fff4dc);border-radius:12px;box-shadow:0 15px 30px rgba(0,0,0,.25);overflow:hidden;}
+.flap{position:absolute;top:0;left:0;width:100%;height:50%;background:linear-gradient(to bottom,#f5e7c1,#f7df9e);transform-origin:top;transform:rotateX(0deg);transition:transform 1.2s ease;}
+.seal-text{margin-top:8px;font-size:16px;opacity:.9;color:#fff9c4;text-shadow:1px 1px 3px #000;text-align:center;}
+
+/* DREAMY TEXT */
+.dreamy-text{
+  font-size:3em;
+  font-weight:600;
+  color:#fff9c4;
+  text-align:center;
+  opacity:0;
+  animation:fadeInText 2s forwards, dreamyGlow 3s ease-in-out infinite alternate;
+  text-shadow:
+    0 0 4px #fff9c4,
+    0 0 10px #fff9c4,
+    0 0 20px #fff9c4,
+    0 0 40px #ffe08a,
+    0 0 60px #ffd54f,
+    0 0 80px #fff;
+  position:relative;
+}
+.dreamy-text::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle, #fff9c4 0%, transparent 70%);
+  filter:blur(12px);
+  opacity:0.5;
+  z-index:-1;
+}
+@keyframes fadeInText{to{opacity:1;}}
+@keyframes dreamyGlow{
+  0%,100% { text-shadow:0 0 4px #fff9c4,0 0 10px #fff9c4,0 0 20px #fff9c4,0 0 40px #ffe08a,0 0 60px #ffd54f; }
+  50% { text-shadow:0 0 6px #fff9c4,0 0 12px #fff9c4,0 0 25px #fff9c4,0 0 50px #ffe08a,0 0 80px #ffd54f; }
+}
+
+/* DOTS */
+.dots{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);display:flex;gap:8px;}
+.dot{width:8px;height:8px;border-radius:50%;background:#fff;opacity:.3;}
+.dot.active{opacity:1;}
+
+/* FALLING STARS */
+.falling-star{position:absolute;width:4px;height:4px;border-radius:50%;background:#fff;box-shadow:0 0 6px #fff;animation:fall linear infinite;}
+@keyframes fall{0%{transform:translateY(-50px) rotate(0deg);opacity:1;}100%{transform:translateY(110vh) rotate(360deg);opacity:0;}}
+
+/* MOBILE */
+@media(max-width:600px){
+  .dreamy-text{font-size:2em;}
+  .envelope-wrap{width:150px;height:105px;}
+}
+</style>
+</head>
+<body>
+
+<!-- SLIDE1 -->
+<div class="scene active">
+  <div class="mask-wrap">
+    <div class="envelope-wrap">
+      <div class="envelope" id="envelope1">
+        <div class="flap"></div>
+      </div>
+      <!-- Moon seal ở giữa phong bao -->
+      <div class="moon" id="sealMoon" style="top:50%;left:50%;margin-left:-30px;margin-top:-30px;width:60px;height:60px;"></div>
+    </div>
+    <div class="seal-text">Bạn có thư từ Thành Đồng</div>
+  </div>
+</div>
+
+<!-- SLIDE2 -->
+<div class="scene">
+  <div class="moon" style="top:40px;right:50px;"></div>
+  <div class="dreamy-text">Dạo này em đang chuẩn bị tất bật cho cây mùa xuân đúng không nhỉ?.</div>
+</div>
+
+<!-- SLIDE3 -->
+<div class="scene">
+  <div class="moon" style="top:40px;right:50px;"></div>
+  <div class="dreamy-text">Để anh kể em nghe một chút về lịch sử cây mùa xuân nhé.</div>
+</div>
+
+<div class="dots">
+  <div class="dot active"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+</div>
+
+<script>
+// SCENES
+const scenes=document.querySelectorAll('.scene');
+const dots=document.querySelectorAll('.dot');
+const envelope=document.getElementById('envelope1');
+const sealMoon=document.getElementById('sealMoon');
+let index=0;
+
+// FALLING STARS
+for(let i=0;i<50;i++){
+  let s=document.createElement("div");
+  s.className="falling-star";
+  s.style.left=Math.random()*100+"%";
+  s.style.animationDuration=(3+Math.random()*4)+"s";
+  s.style.animationDelay=(Math.random()*5)+"s";
+  document.body.appendChild(s);
+}
+
+// STARS BACKGROUND
+for(let i=0;i<80;i++){
+  let s=document.createElement("div");
+  s.className="star";
+  s.style.width=Math.random()*2+1+'px';
+  s.style.height=s.style.width;
+  s.style.top=Math.random()*100+'%';
+  s.style.left=Math.random()*100+'%';
+  s.style.animationDuration=(2+Math.random()*3)+'s';
+  document.body.appendChild(s);
+}
+
+function show(i){
+  scenes.forEach((s,idx)=>{
+    s.classList.toggle('active',idx===i);
+    dots[idx].classList.toggle('active',idx===i);
+  });
+
+  if(i===1){
+    // Mở flap
+    envelope.querySelector('.flap').style.transform='rotateX(160deg)';
+    // Trăng niêm phong bay lên thành trăng slide 2
+    sealMoon.style.top='40px';
+    sealMoon.style.left='auto';
+    sealMoon.style.right='50px';
+    sealMoon.style.margin='0';
+    sealMoon.style.width='100px';
+    sealMoon.style.height='100px';
+  }
+}
+
+document.body.addEventListener('click',()=>{
+  index=(index+1)%scenes.length;
+  show(index);
+});
+</script>
+
+</body>
+</html>
